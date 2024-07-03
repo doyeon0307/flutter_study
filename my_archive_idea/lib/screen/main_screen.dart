@@ -21,10 +21,10 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     // 아이디어 목록들 가져오기
-    getIdeaInfo();
+    // getIdeaInfo();
 
     // 임시 insert data
-    // setInsertIdeaInfo();
+    setInsertIdeaInfo();
 
     //Future<void> deleteDatabase(String path) =>
     //  databaseFactory.deleteDatabase(path);
@@ -76,9 +76,9 @@ class _MainScreenState extends State<MainScreen> {
       margin: EdgeInsets.only(top: 16),
       decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
-        side: BorderSide(color: Color(0xffd9d9d9), width: 1),
-        borderRadius: BorderRadius.circular(10),
-      )),
+            side: BorderSide(color: Color(0xffd9d9d9), width: 1),
+            borderRadius: BorderRadius.circular(10),
+          )),
       child: Stack(
         alignment: Alignment.centerLeft,
         children: [
@@ -141,7 +141,7 @@ class _MainScreenState extends State<MainScreen> {
     lstIdeaInfo = await dbHelper.getAllIdeaInfo();
     // 아이디어를 작성일시 역순으로 정렬해야 함(최신글이 위)
     lstIdeaInfo.sort(
-      (a, b) => b.createdAt.compareTo(a.createdAt),
+          (a, b) => b.createdAt.compareTo(a.createdAt),
     );
     // lst ui update
     setState(() {});
@@ -151,12 +151,14 @@ class _MainScreenState extends State<MainScreen> {
     await dbHelper.initDatabase();
     await dbHelper.insertIdeaInfo(
       IdeaInfo(
-          title: '샘플 아이디어1',
-          motive: '테스트를 하려구요',
-          content: '이게 지금 출력이 잘 되나요?',
+          title: 'tdd',
+          motive: 'mmmm',
+          content: 'ccc',
           priority: 5,
-          feedback: '잘 되면 좋겠다',
-          createdAt: DateTime.now().millisecondsSinceEpoch),
+          feedback: 'fff?',
+          createdAt: DateTime
+              .now()
+              .millisecondsSinceEpoch),
     );
   }
 }
