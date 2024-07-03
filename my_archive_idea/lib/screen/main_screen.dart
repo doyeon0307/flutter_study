@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
-import '../data/idea_info.dart';
-import '../database/database_helper.dart';
+import 'package:intl/intl.dart';
+import 'package:my_archive_idea/data/idea_info.dart';
+import 'package:my_archive_idea/database/database_helper.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -21,11 +21,13 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     // 아이디어 목록들 가져오기
-    // getIdeaInfo();
+    getIdeaInfo();
 
     // 임시 insert data
-    getIdeaInfo();
-    setInsertIdeaInfo();
+    // setInsertIdeaInfo();
+
+    //Future<void> deleteDatabase(String path) =>
+    //  databaseFactory.deleteDatabase(path);
   }
 
   @override
@@ -46,7 +48,7 @@ class _MainScreenState extends State<MainScreen> {
       body: Container(
         margin: EdgeInsets.all(16),
         child: ListView.builder(
-          itemCount: 10,
+          itemCount: lstIdeaInfo.length,
           itemBuilder: (context, index) {
             return listitem(index);
           },
@@ -55,6 +57,7 @@ class _MainScreenState extends State<MainScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // 새 아이디어 작성 화면으로 이동
+          Navigator.pushNamed(context, '/edit');
         },
         child: Image.asset(
           'assets/idea_button.png',
@@ -83,7 +86,7 @@ class _MainScreenState extends State<MainScreen> {
           Container(
             margin: EdgeInsets.only(left: 16, bottom: 16),
             child: Text(
-              '# 샘플 아이디어 제목',
+              lstIdeaInfo[index].title,
               style: TextStyle(fontSize: 16),
             ),
           ),
@@ -94,7 +97,9 @@ class _MainScreenState extends State<MainScreen> {
             child: Container(
               margin: EdgeInsets.only(right: 16, bottom: 8),
               child: Text(
-                '2024.07.01 14:33',
+                DateFormat("yyyy.MM.dd HH:mm").format(
+                    DateTime.fromMillisecondsSinceEpoch(
+                        lstIdeaInfo[index].createdAt)),
                 style: TextStyle(color: Color(0xffaeaeae), fontSize: 10),
               ),
             ),
@@ -105,7 +110,7 @@ class _MainScreenState extends State<MainScreen> {
             child: Container(
               margin: EdgeInsets.only(left: 16, bottom: 8),
               child: RatingBar.builder(
-                initialRating: 3,
+                initialRating: lstIdeaInfo[index].priority.toDouble(),
                 minRating: 1,
                 maxRating: 5,
                 direction: Axis.horizontal,

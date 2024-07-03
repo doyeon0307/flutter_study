@@ -14,12 +14,13 @@ dependencies:
   cupertino_icons: ^1.0.6
   sqflite: ^2.3.3+1
   flutter_rating_bar: ^4.0.1
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 flutter:
   assets:
