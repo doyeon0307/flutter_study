@@ -24,10 +24,8 @@ class _MainScreenState extends State<MainScreen> {
     // getIdeaInfo();
 
     // 임시 insert data
+    dbHelper.initDatabase();
     setInsertIdeaInfo();
-
-    //Future<void> deleteDatabase(String path) =>
-    //  databaseFactory.deleteDatabase(path);
   }
 
   @override
@@ -50,7 +48,9 @@ class _MainScreenState extends State<MainScreen> {
         child: ListView.builder(
           itemCount: lstIdeaInfo.length,
           itemBuilder: (context, index) {
-            return listitem(index);
+            return GestureDetector(child: listItem(index), onTap: () {
+              Navigator.pushNamed(context, '/detail', arguments: lstIdeaInfo[index]);
+            },);
           },
         ),
       ),
@@ -69,7 +69,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget listitem(int index) {
+  Widget listItem(int index) {
     // Stack
     return Container(
       height: 82,

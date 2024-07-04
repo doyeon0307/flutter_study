@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_archive_idea/data/idea_info.dart';
+import 'package:my_archive_idea/screen/detail_screen.dart';
 import 'package:my_archive_idea/screen/edit_screen.dart';
 
 import 'screen/splash_screen.dart';
@@ -33,6 +34,12 @@ class MyApp extends StatelessWidget {
               return EditScreen(ideaInfo: ideaInfo,);
             },
           );
+        }
+        else if (settings.name == '/detail') {
+          final IdeaInfo? ideaInfo = settings.arguments as IdeaInfo?;
+          return MaterialPageRoute(builder: (context) {
+            return DetailScreen(ideaInfo: ideaInfo);
+          },);
         }
       },
     );
