@@ -434,6 +434,5 @@ class _EditScreenState extends State<EditScreen> {
   }
 
   Future setInsertIdeaInfo(IdeaInfo ideaInfo) async {
-    await dbHelper.initDatabase();
     await dbHelper.insertIdeaInfo(ideaInfo);
   }}

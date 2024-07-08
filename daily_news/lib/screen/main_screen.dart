@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
@@ -13,12 +16,17 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   List<dynamic> lstNewsInfo = [];
+  late String admobBannerId; // 하단 배너 아이디
+  late BannerAd _bannerAd;
 
   @override
   void initState() {
     super.initState();
     // 뉴스 정보 가져오기
     getNewsInfo();
+
+    // admob 세팅
+    setAdmob();
   }
 
   @override
@@ -53,16 +61,16 @@ class _MainScreenState extends State<MainScreen> {
                     height: 170,
                     child: newsItem['urlToImage'] != null
                         ? ClipRRect(
-                            child: Image.network(
-                              newsItem['urlToImage'],
-                              fit: BoxFit.cover, // 이미지를 꽉 채움
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          )
+                      child: Image.network(
+                        newsItem['urlToImage'],
+                        fit: BoxFit.cover, // 이미지를 꽉 채움
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    )
                         : ClipRRect(
-                            child: Image.asset('assets/no_image.png'),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
+                      child: Image.asset('assets/no_image.png'),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                   // 반투명 검정 박스
                   Container(
@@ -72,9 +80,9 @@ class _MainScreenState extends State<MainScreen> {
                         color: Colors.black.withOpacity(0.7),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        ))),
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                            ))),
                     child: Container(
                       margin: EdgeInsets.all(8),
                       child: Column(
@@ -154,5 +162,38 @@ class _MainScreenState extends State<MainScreen> {
     } catch (error) {
       print(error);
     }
+  }
+
+  // @override
+  // void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  //   super.debugFillProperties(properties);
+  //   properties.add(DiagnosticsProperty('BannerAd', BannerAd));
+  // }
+
+  String bannerAdUnitId() {
+    if (Platform.isAndroid) {
+      // android
+      if (kReleaseMode) {
+        return 'ca-app-pub-6717544996147983/9349123120';  // release unit-id
+      } else {
+        return 'ca-app-pub-3940256099942544/9214589741';  // debug(test) unit-id
+      }
+    } else if (Platform.isIOS) {
+      // ios
+      if (kReleaseMode) {
+        return '';  // release unit-id
+      } else {
+        return '';  // debug(test) unit-id
+      }
+    } else {
+      throw UnsupportedError('Unsupported Platform');
+    }
+  }
+
+  void setAdmob() {
+    _bannerAd = BannerAd(size: AdSize.banner,
+      adUnitId: _bannerAdUnitId,
+      listener: listener,
+      request: request,)
   }
 }

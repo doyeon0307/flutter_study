@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:my_archive_idea/data/idea_info.dart';
 import 'package:my_archive_idea/database/database_helper.dart';
@@ -14,7 +15,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   // listView에 데이터베이스의 데이터를 표시하기 위한 변수 선언
 
-  var dbHelper = DatabaseHelper(); // 데이터베이스 접근을 용이하게 하는 유틸 객체
+  final dbHelper = GetIt.instance<DatabaseHelper>();
   List<IdeaInfo> lstIdeaInfo = []; // 아이디어 목록 데이터가 담길 공간
 
   @override
@@ -24,7 +25,6 @@ class _MainScreenState extends State<MainScreen> {
     // getIdeaInfo();
 
     // 임시 insert data
-    dbHelper.initDatabase();
     setInsertIdeaInfo();
   }
 
@@ -136,7 +136,6 @@ class _MainScreenState extends State<MainScreen> {
   // idea 목록 조회 (select)
   Future getIdeaInfo() async {
     // idea들을 DB에서 가져와서 lstInfo(리스트) 객체에 담기
-    await dbHelper.initDatabase();
     // init이 완료되어야만 다음 라인 수행->await
     lstIdeaInfo = await dbHelper.getAllIdeaInfo();
     // 아이디어를 작성일시 역순으로 정렬해야 함(최신글이 위)
@@ -148,7 +147,6 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Future setInsertIdeaInfo() async {
-    await dbHelper.initDatabase();
     await dbHelper.insertIdeaInfo(
       IdeaInfo(
           title: 'tdd',
