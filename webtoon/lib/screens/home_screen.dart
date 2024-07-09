@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:webtoon/model/webtoon_model.dart';
 import 'package:webtoon/services/api_service.dart';
+import 'package:webtoon/widgets/webtoon_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -61,46 +62,21 @@ class HomeScreen extends StatelessWidget {
       // 이후에 separated로 변경
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       scrollDirection: Axis.horizontal,
-      itemCount: snapshot.data!.length, // itemCount: 핵심 최적화 기능
+      itemCount: snapshot.data!.length,
+      // itemCount: 핵심 최적화 기능
       itemBuilder: (context, index) {
         // ListView.builder가 아이템을 build할 때 호출하는 함수
         // index->어떤 아이템이 build되는지 알 수 있음
         var webtoon = snapshot.data![index];
-        return Column(
-          children: [
-            Container(  // image
-              width: 250,
-              clipBehavior: Clip.hardEdge,  // 부모-자식 영역 침범 문제 해결->borderRadius 적용됨
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 10,
-                    offset: const Offset(10, 10),
-                    color: Colors.black.withOpacity(0.5),
-                  )
-                ]
-              ),
-              child: Image.network(
-                webtoon.thumb,
-                headers: const {
-                  'Referer': 'https://comic.naver.com',
-                },
-              ),
-            ),
-            SizedBox(height: 10,),
-            Text(
-              webtoon.title,
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            ),
-          ],
+        return Webtoon(
+          title: webtoon.title,
+          thumb: webtoon.thumb,
+          id: webtoon.id,
         );
       },
       // 위젯을 리턴, 위젯은 구분자 역할을 함
       separatorBuilder: (context, index) => SizedBox(
-        width: 30,
+        width: 40,
       ),
     );
   }
