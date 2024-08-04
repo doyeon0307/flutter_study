@@ -13,6 +13,8 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.6
+  dio: ^4.0.6
+  flutter_secure_storage: ^9.2.2
 
 dev_dependencies:
   flutter_test:
@@ -28,7 +30,7 @@ flutter:
     - asset/rive/
   uses-material-design: true
 
-font:
+fonts:
   - family: NotoSans
     fonts:
       - asset: asset/fonts/NotoSansKR-Black.otf
