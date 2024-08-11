@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:my_delivery_app/common/const/data.dart';
 import 'package:my_delivery_app/restaurant/component/restaurant_card.dart';
+import 'package:my_delivery_app/restaurant/model/restaurant_model.dart';
+import 'package:my_delivery_app/restaurant/view/restaurant_detail_screen.dart';
 
 class RestaurantScreen extends StatelessWidget {
   const RestaurantScreen({super.key});
@@ -17,7 +19,6 @@ class RestaurantScreen extends StatelessWidget {
         },
       ),
     );
-    print('${resp.data['data']}');
     return resp.data['data'];
   }
 
@@ -36,16 +37,20 @@ class RestaurantScreen extends StatelessWidget {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 final item = snapshot.data![index];
-                return RestaurantCard(
-                  image: Image.network(
-                    'http://$ip/${item['thumbUrl']}',
-                    fit: BoxFit.cover,),
-                  name: item['name'],
-                  tags: List<String>.from(item['tags']),
-                  ratingsCount: item['ratingsCount'],
-                  deliveryTime: item['deliveryTime'],
-                  deliveryFee: item['deliveryFee'],
-                  ratings: item['ratings'],
+                final pItem = RestaurantModel.fromJson(json: item);
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return RestaurantDetailScreen(
+                            id: pItem.id,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  child: RestaurantCard.fromModel(model: pItem),
                 );
               },
               separatorBuilder: (context, index) {
