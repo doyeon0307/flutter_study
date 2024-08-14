@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:my_delivery_app/common/const/data.dart';
+import 'package:my_delivery_app/common/dio/dio.dart';
 import 'package:my_delivery_app/common/layout/default_layout.dart';
 import 'package:my_delivery_app/product/component/product_card.dart';
 import 'package:my_delivery_app/restaurant/component/restaurant_card.dart';
@@ -17,7 +18,15 @@ class RestaurantDetailScreen extends StatelessWidget {
 
   Future<RestaurantDetailModel> getRestaurantDetail() async {
     final dio = Dio();
-    final repository = RestaurantRepository(dio, baseUrl: "http://$ip/restaurant");
+    dio.interceptors.add(
+      CustomInterceptor(
+        storage: storage,
+      ),
+    );
+    final repository = RestaurantRepository(
+      dio,
+      baseUrl: "http://$ip/restaurant",
+    );
     return repository.getRestaurantDetail(id: id);
   }
 
@@ -28,6 +37,13 @@ class RestaurantDetailScreen extends StatelessWidget {
       child: FutureBuilder<RestaurantDetailModel>(
         future: getRestaurantDetail(),
         builder: (context, AsyncSnapshot<RestaurantDetailModel> snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                snapshot.error.toString(),
+              ),
+            );
+          }
           if (!snapshot.hasData) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -46,7 +62,7 @@ class RestaurantDetailScreen extends StatelessWidget {
   }
 
   SliverPadding renderLabel() {
-    return SliverPadding(
+    return const SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       sliver: SliverToBoxAdapter(
         child: Text(
@@ -64,7 +80,7 @@ class RestaurantDetailScreen extends StatelessWidget {
     required List<RestaurantProductModel> products,
   }) {
     return SliverPadding(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 16.0,
       ),
       sliver: SliverList(
