@@ -25,16 +25,19 @@ class StateProviderScreen extends ConsumerWidget {
               provider.toString(),
             ),
             ElevatedButton(
-              // 버튼을 눌렀을 때 실행되는 것은 read
-              // build 함수 안에서 ui에 반영하는 것은 watch
               onPressed: () {
                 ref.read(numberProvider.notifier).update(
-                      // state: 현재 상태
-                      // 오른쪽은 반환값, 현재 상태에서 1씩 더해줌
                       (state) => state + 1,
                     );
               },
               child: Text("up"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                ref.read(numberProvider.notifier).state =
+                    ref.read(numberProvider.notifier).state - 1;
+              },
+              child: Text("down"),
             ),
             ElevatedButton(
               onPressed: () => Navigator.of(context).push(MaterialPageRoute(
@@ -67,12 +70,8 @@ class _NextScreen extends ConsumerWidget {
               provider.toString(),
             ),
             ElevatedButton(
-              // 버튼을 눌렀을 때 실행되는 것은 read
-              // build 함수 안에서 ui에 반영하는 것은 watch
               onPressed: () {
                 ref.read(numberProvider.notifier).update(
-                      // state: 현재 상태
-                      // 오른쪽은 반환값, 현재 상태에서 1씩 더해줌
                       (state) => state + 1,
                     );
               },
