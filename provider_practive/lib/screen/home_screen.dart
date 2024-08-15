@@ -3,6 +3,7 @@ import 'package:provider_practive/layout/default_layout.dart';
 import 'package:provider_practive/screen/auto_dispose_modifier_screen.dart';
 import 'package:provider_practive/screen/family_modifier_screen.dart';
 import 'package:provider_practive/screen/future_provider_screen.dart';
+import 'package:provider_practive/screen/listen_provider_screen.dart';
 import 'package:provider_practive/screen/state_notifier_provider_screen.dart';
 import 'package:provider_practive/screen/state_provider_screen.dart';
 import 'package:provider_practive/screen/stream_provider_screen.dart';
@@ -63,6 +64,14 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             child: Text("AutoDispose Modifier Screen"),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ListenProviderScreen(),
+              ),
+            ),
+            child: Text("Listen Provider Screen"),
           ),
         ],
       ),
