@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider_practive/layout/default_layout.dart';
-import 'package:provider_practive/riverpod/state_provider_screen.dart';
+import 'package:provider_practive/riverpod/state_provider.dart';
 
 // ConsumerWidget을 상속받는다
 class StateProviderScreen extends ConsumerWidget {
