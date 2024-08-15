@@ -4,6 +4,8 @@ import 'package:provider_practive/screen/auto_dispose_modifier_screen.dart';
 import 'package:provider_practive/screen/family_modifier_screen.dart';
 import 'package:provider_practive/screen/future_provider_screen.dart';
 import 'package:provider_practive/screen/listen_provider_screen.dart';
+import 'package:provider_practive/screen/provider_screen.dart';
+import 'package:provider_practive/screen/select_provider_screen.dart';
 import 'package:provider_practive/screen/state_notifier_provider_screen.dart';
 import 'package:provider_practive/screen/state_provider_screen.dart';
 import 'package:provider_practive/screen/stream_provider_screen.dart';
@@ -72,6 +74,22 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             child: Text("Listen Provider Screen"),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => SelectProviderScreen(),
+              ),
+            ),
+            child: Text("Select Provider Screen"),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ProviderScreen(),
+              ),
+            ),
+            child: Text("Provider Screen"),
           ),
         ],
       ),
