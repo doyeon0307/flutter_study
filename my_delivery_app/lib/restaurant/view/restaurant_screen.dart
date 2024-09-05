@@ -23,10 +23,6 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
   }
 
   void scrollListener() {
-    print("run");
-
-    // 현재 위치가 최대 위치보다 조금 덜 되는 위치라면
-    // 새로운 데이터를 추가 요청
     if (controller.offset > controller.position.maxScrollExtent - 300) {
       ref.read(restaurantProvider.notifier).paginate(
             fetchMore: true,
@@ -59,46 +55,47 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
     final cp = data as CursorPagination;
 
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: ListView.separated(
-          controller: controller,
-          itemCount: cp.data.length + 1,
-          itemBuilder: (context, index) {
-            if (index == cp.data.length) {
-              // hasMore가 false라면 더 데이터를 가져오지 못하므로
-              // 데이터가 없다는 메시지를 띄워야지
-              // 무조건 마지막 데이터라고 로딩바를 띄우지 않는다
-              return Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 8.0,
-                ),
-                child: Center(
-                  child: data is CursorPaginationFetchingMore
-                      ? CircularProgressIndicator()
-                      : Text("마지막 데이터입니다."),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: ListView.separated(
+        controller: controller,
+        itemCount: cp.data.length + 1,
+        itemBuilder: (context, index) {
+          if (index == cp.data.length) {
+            // hasMore가 false라면 더 데이터를 가져오지 못하므로
+            // 데이터가 없다는 메시지를 띄워야지
+            // 무조건 마지막 데이터라고 로딩바를 띄우지 않는다
+            return Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8.0,
+              ),
+              child: Center(
+                child: data is CursorPaginationFetchingMore
+                    ? const CircularProgressIndicator()
+                    : const Text("마지막 데이터입니다."),
+              ),
+            );
+          }
+          final item = cp.data[index];
+          return GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return RestaurantDetailScreen(
+                      id: item.id,
+                    );
+                  },
                 ),
               );
-            }
-            final item = cp.data[index];
-            return GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return RestaurantDetailScreen(
-                        id: item.id,
-                      );
-                    },
-                  ),
-                );
-              },
-              child: RestaurantCard.fromModel(model: item),
-            );
-          },
-          separatorBuilder: (context, index) {
-            return const SizedBox(height: 20.0);
-          },
-        ));
+            },
+            child: RestaurantCard.fromModel(model: item),
+          );
+        },
+        separatorBuilder: (context, index) {
+          return const SizedBox(height: 20.0);
+        },
+      ),
+    );
   }
 }

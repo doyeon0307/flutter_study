@@ -66,8 +66,6 @@ class CursorPaginationMeta {
 }
 
 // 새로고침할 때
-// data를 사용해야하므로 CursorPaginaiton을 상속받는다
-// 상속의 상속이므로 Base도 상속받고 있다
 class CursorPaginationRefetching<T> extends CursorPagination<T> {
   CursorPaginationRefetching({
     required super.meta,

@@ -32,7 +32,7 @@ class CustomInterceptor extends Interceptor {
 
       final token = await storage.read(key: ACCESS_TOKEN_KEY);
       options.headers.addAll({
-        'authorization': 'Bearer $token',
+        'Authorization': 'Bearer $token',
       });
     }
 
@@ -87,10 +87,10 @@ class CustomInterceptor extends Interceptor {
         await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
         final response = await dio.fetch(options);
 
-        return handler.resolve(response);
+        handler.resolve(response);
       }
     } on DioError catch (e) {
-      return handler.reject(e);
+      handler.reject(e);
     }
   }
 }
